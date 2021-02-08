@@ -1,0 +1,11 @@
+# bundle
+bin.js
+
+# dist
+dist
+
+# modules
+node_modules
+
+# misc
+*.lock
