@@ -11,7 +11,18 @@ const tmp   = os.tmpdir();
 
 program.version(pjson.version);
 
-async function main(email, password, input, output, revision, soundColumn, nameColumn) {
+async function main(
+  email, 
+  password, 
+  input, 
+  output, 
+  revision, 
+  soundColumn, 
+  nameColumn,
+  groupNumber,
+  groupDist,
+  skipRename
+) {
   const revisionInfo    = await checkDownload(revision);
   const [browser, page] = await setupBrowser(output, revisionInfo);
   await login(page, email, password);
@@ -49,13 +60,24 @@ async function main(email, password, input, output, revision, soundColumn, nameC
 
   function renameFiles(downloadedFileNames) {
     const allFiles = Object.entries(downloadedFileNames);
+    let filesPerGroup = allFiles.length;
+    if (!!groupDist && groupDist.length !== groupNumber) 
+      throw Error(`Distribution pattern should be available for ${groupNumber} groups.`);
+    if (!!groupDist && groupDist.length) {
+      filesPerGroup = groupDist[0];
+    } else {
+      filesPerGroup = allFiles.length / groupNumber;
+    }
     let count = 1, countW = 1;
 
     for (const [key, value] of allFiles) {
       const targetFile      = path.join(SAVE_FOLDER, key);
-      const destinationFile = path.join(SAVE_FOLDER, `${countW}-${value}`);
+      const destinationFile = path.join(SAVE_FOLDER, `${count}_${countW}-${value}`);
       console.log(key, `${count}-${countW}-${value}`);
-      if (count % 20 == 0) countW++;
+      if(!!groupDist && groupDist.length) {
+        filesPerGroup = groupDist[countW];
+      }
+      if (count % filesPerGroup === 0) countW++;
       count++;
       fs.rename(targetFile, destinationFile, function (error) {
         if (error) console.log("ERROR: " + error);
@@ -91,6 +113,7 @@ async function main(email, password, input, output, revision, soundColumn, nameC
       }
     }
     await browser.close();
+    if (skipRename) return;
     renameFiles(downloadedFileNames);
   }
 
@@ -196,7 +219,10 @@ program
   .requiredOption("-o, --output <output>", "Output Folder of Audio")
   .option("-r, --revision <revision>", "Chromium Revision", "827102")
   .option("-sc, --sound-column <soundColumn>", "Column name shows sound urls in XLSX", "AL")
-  .option("-nc, --name-column <nameColumn>", "Column name shows sound file names in XLSX", "AX");
+  .option("-nc, --name-column <nameColumn>", "Column name shows sound file names in XLSX", "AX")
+  .option("-g, --group <groupNumber>", "Number of test group in given file", 1)
+  .option("-gd, --distribution <groupDist...>", "Task distribution for each group (evenly by default)")
+  .option("--skip-rename", "Skip renaming of audio files");
 program.parse(process.argv);
 const options = program.opts();
 
@@ -207,5 +233,8 @@ main(
   options.output,
   options.revision,
   options.soundColumn,
-  options.nameColumn
+  options.nameColumn,
+  options.group,
+  options.distribution,
+  options.skipRename
 );
