@@ -30,13 +30,13 @@ Download pre-built binary, open terminal window and run the app with;
 1. Be sure you entered correct credientals for gorilla, and logout from your account if open in any browser.
 2. Put your XLSX input file path correctly
 3. For output folder, give only the folder name no path. The folder will be created near the application file.
-4. Check sound column and name column in your XLSX file, if sound urls under AL and file names are under AL column, the you're good to go. If not, specify correct column names via `-sc` and `-nc` flags.
-5. If your XLSX file contains only one group of patient results, then you're good to go. If not, check "renaming strategy" section.
+4. Check sound column and name column in your XLSX file, if sound urls under AL and file names are under AX column, the you're good to go. If not, specify correct column names via `-sc` and `-nc` flags.
+5. If your XLSX file contains only one group of participant results, then you're good to go. If not, check "renaming strategy" section.
 6. If you don't need any file renaming at all, you can skip it by calling `--skip-rename` flag.
 
 ## Renaming Strategy
 
-If your XLSX file consist of multiple group of patients, you may want to rename audio files in a way that you can distinguish the file by their name as like, which group they're belong to.
+If your XLSX file consist of multiple group of participants, you may want to rename audio files in a way that you can distinguish the file by their name as like, which group they're belong to.
 
 To do that, I provided two optional flags.
 
@@ -45,9 +45,10 @@ i.e.
 ```bash
 ...other_commands -g 2
 
-# output
+# output of group 1
 1_1-apple.wav
 2_1-melon.wav
+# output of group 2
 3_2-kangaroo.wav
 4_2-chicken.wav
 ```
@@ -56,12 +57,13 @@ For total amount of 4 audio files, the application stated that first 2 audio fil
 ### Uneven distributions
 
 For more advanced situations, I provided another flag which we call `-gd` in short, or `--distribution` in long way. This flag maybe helpful, in case of, if given groups do not have evenly distributed amount of audio files in given XLSX file.
-i.e. you have 4 total audio files, 2 groups of patients and 1st audio file is belong to the first group, the rest 3 are belong the second group. Then you can define it to the app as shown below
+i.e. you have 4 total audio files, 2 groups of participants and 1st audio file is belong to the first group, the rest 3 are belong the second group. Then you can define it to the app as shown below
 ```bash
 ...other_commands -g 2 -dg 1 3
 
-# output
+# output of group 1
 1_1-apple.wav
+# output of group 2
 2_2-melon.wav
 3_2-kangaroo.wav
 4_2-chicken.wav
