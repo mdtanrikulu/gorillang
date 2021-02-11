@@ -13,30 +13,25 @@ Download pre-built binary, open terminal window and run the app with;
 
 | Flag (short) | Flag (long) | Description | Default | Required |
 | ------------ | ----------- | ----------- | ------- | ----- |
-| -e | --email | Your e-mail for gorilla account | | yes |
-| -p | --password | Your password for gorilla account | | yes |
-| -i | --input | XLSX File from Gorilla | | yes |
-| -o | --output | Output Folder of Audio | | yes |
-| -r | --revision | Chromium Revision | "827102" | no |
-| -sc | --sound-column | Column name shows sound urls in XLSX | "AL" | depend on task |
-| -nc | --name-column | Column name shows sound file names in XLSX | "AX" | depend on task |
-| -g | --group | Number of test group in given file | 1 | depend on task |
-| -gd | --distribution | Task distribution for each group | evenly | depend on task |
-|  | --skip-rename | Skip renaming of audio files | false | no |
+| `-e` | `--email` | Your e-mail for gorilla account | | yes |
+| `-p` | `--password` | Your password for gorilla account | | yes |
+| `-i` | `--input` | XLSX File from Gorilla | | yes |
+| `-o` | `--output` | Output Folder of Audio | | yes |
+| `-r` | `--revision` | Chromium Revision | "827102" | no |
+| `-sc` | `--sound-column` | Column name shows sound urls in XLSX | "AL" | depend on task |
+| `-nc` | `--name-column` | Column name shows sound file names in XLSX | "AX" | depend on task |
+| `-g` | `--group` | Number of test group in given file | 1 | depend on task |
+| `-gd` | `--distribution` | Task distribution for each group | evenly | depend on task |
+|  | `--skip-rename` | Skip renaming of audio files | false | no |
 
 
 ## How to prepare run command for my task
 
-1 - Be sure you entered correct credientals for gorilla, and logout from your account if open in any browser.
-
-2 - Put your XLSX input file path correctly
-
-3 - For output folder, give only the folder name no path. The folder will be created near the application file.
-
-4 - Check sound column and name column in your XLSX file, if sound urls under AL and file names are under AL column, the you're good to go. If not, specify correct column names via `-sc` and `-nc` flags.
-
+1. Be sure you entered correct credientals for gorilla, and logout from your account if open in any browser.
+2. Put your XLSX input file path correctly
+3. For output folder, give only the folder name no path. The folder will be created near the application file.
+4. Check sound column and name column in your XLSX file, if sound urls under AL and file names are under AL column, the you're good to go. If not, specify correct column names via `-sc` and `-nc` flags.
 5. If your XLSX file contains only one group of patient results, then you're good to go. If not, check "renaming strategy" section.
-
 6. If you don't need any file renaming at all, you can skip it by calling `--skip-rename` flag.
 
 ## Renaming Strategy
