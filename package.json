@@ -1,6 +1,6 @@
 {
   "name": "gorillang",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gorilla audio downloader for Langusta",
   "main": "main.js",
   "module": "main.js",
